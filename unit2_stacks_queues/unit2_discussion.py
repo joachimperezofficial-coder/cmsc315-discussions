@@ -13,105 +13,179 @@ explaining key concepts through comments and improved output.
 
 from collections import deque
 
-
 class Stack:
     def __init__(self):
-        # TODO (Student): Create the internal data structure for the stack.
-        # Hint: A Python list can be used to store stack values.
-        pass
+        self.items = []
 
     def push(self, value):
-        # TODO (Student): Add value to the stack.
-        # Add a short comment explaining why this operation supports LIFO behavior.
-        pass
+        self.items.append(value)
 
     def pop(self):
-        # TODO (Student): Remove and return the most recently added value.
-        # Improve or explain empty-stack handling.
-        # What should happen if the stack is empty?
-        pass
+        if self.is_empty():
+            return None
+        return self.items.pop()
 
     def peek(self):
-        # TODO (Student): Return the top value without removing it.
-        # Add a comment explaining what peek does.
-        pass
+        if self.is_empty():
+            return None
+        return self.items[-1]
 
     def is_empty(self):
-        # TODO (Student): Return True if the stack has no values.
-        pass
+        return len(self.items) == 0
 
 
 class Queue:
+
     def __init__(self):
-        # TODO (Student): Create the internal data structure for the queue.
-        # Hint: collections.deque is useful for efficient queue operations.
-        pass
+        self.items = deque()
 
     def enqueue(self, value):
-        # TODO (Student): Add value to the back of the queue.
-        # Add a short comment explaining why this operation supports FIFO behavior.
-        pass
+        self.items.append(value)
 
     def dequeue(self):
-        # TODO (Student): Remove and return the value from the front of the queue.
-        # Explain or improve empty-queue handling.
-        pass
+
+        if self.is_empty():
+            return None
+        return self.items.popleft()
 
     def front(self):
-        # TODO (Student): Return the front value without removing it.
-        # Add a comment explaining what front returns.
-        pass
+        if self.is_empty():
+            return None
+        return self.items[0]
 
     def is_empty(self):
-        # TODO (Student): Return True if the queue has no values.
-        pass
+        return len(self.items) == 0
 
 
 def main():
     print("=== UNIT 2: STACKS AND QUEUES ===")
 
     # ===============================
-    # TODO (Student): STACK DEMO
+    # STACK DEMO
     # ===============================
-    # Requirements:
-    # 1. Create a Stack object.
-    # 2. Add at least 4 values to the stack.
-    # 3. Improve the print statements so they clearly explain what is happening.
-    # 4. Demonstrate LIFO behavior.
-    # 5. Show what happens when pop() is used on an empty stack.
-    #
-    # Edge Cases:
-    # 6. Show what happens when peek() is used on an empty stack.
-    # 7. Create a stack with only one item, remove it,
-    #    and verify the stack is empty afterward.
 
+    print("\n=== STACK DEMO ===")
 
-print("\n=== STACK DEMO ===")
-print("TODO: Create a Stack object, demonstrate LIFO behavior,")
-print("      test popping from an empty stack,")
-print("      test peeking at an empty stack,")
-print("      and verify a single-item stack becomes empty after removal.")
+    help_desk_stack = Stack()
 
-# ===============================
-# TODO (Student): QUEUE DEMO
-# ===============================
-# Requirements:
-# 1. Create a Queue object.
-# 2. Add at least 4 values to the queue.
-# 3. Improve the print statements so they clearly explain what is happening.
-# 4. Demonstrate FIFO behavior.
-# 5. Show what happens when dequeue() is used on an empty queue.
-#
-# Edge Cases:
-# 6. Show what happens when front() is used on an empty queue.
-# 7. Create a queue with only one item, remove it,
-#    and verify the queue is empty afterward.
+    stack_actions = [
+        "Open ticket",
+        "Assign technician",
+        "Add troubleshooting note",
+        "Close ticket",
+    ]
 
-print("\n=== QUEUE DEMO ===")
-print("TODO: Create a Queue object, demonstrate FIFO behavior,")
-print("      test dequeuing from an empty queue,")
-print("      test viewing the front of an empty queue,")
-print("      and verify a single-item queue becomes empty after removal.")
+    print("\nAdding actions to the stack:")
+    for action in stack_actions:
+        help_desk_stack.push(action)
+        print("Pushed:", action)
+
+    print("\nTop value before removal:", help_desk_stack.peek())
+
+    first_popped = help_desk_stack.pop()
+    second_popped = help_desk_stack.pop()
+
+    print("Popped first:", first_popped)
+    print("Popped second:", second_popped)
+
+    print(
+        "\nLIFO explanation: "
+        "The last action added was removed first."
+    )
+
+    # Test pop() and peek() on an empty stack.
+    empty_stack = Stack()
+
+    print("\nEmpty stack edge case:")
+    print(
+        "Result of pop() on an empty stack:",
+        empty_stack.pop(),
+    )
+    print(
+        "Result of peek() on an empty stack:",
+        empty_stack.peek(),
+    )
+
+    # Test a stack containing only one item.
+    single_item_stack = Stack()
+    single_item_stack.push("Only stack item")
+
+    print("\nSingle-item stack test:")
+    print("Item removed:", single_item_stack.pop())
+    print(
+        "Is the stack empty after removal?",
+        single_item_stack.is_empty(),
+    )
+
+    # ===============================
+    # QUEUE DEMO
+    # ===============================
+
+    print("\n=== QUEUE DEMO ===")
+
+    help_desk_queue = Queue()
+
+    support_tickets = [
+        "Ticket 101 - Password reset",
+        "Ticket 102 - Wi-Fi issue",
+        "Ticket 103 - Email issue",
+        "Ticket 104 - Printer issue",
+    ]
+
+    print("\nAdding tickets to the queue:")
+    for ticket in support_tickets:
+        help_desk_queue.enqueue(ticket)
+        print("Enqueued:", ticket)
+
+    print(
+        "\nFront value before removal:",
+        help_desk_queue.front(),
+    )
+
+    first_removed = help_desk_queue.dequeue()
+    second_removed = help_desk_queue.dequeue()
+
+    print("Dequeued first:", first_removed)
+    print("Dequeued second:", second_removed)
+
+    print(
+        "\nFIFO explanation: "
+        "The first ticket added was removed first."
+    )
+
+    # Test dequeue() and front() on an empty queue.
+    empty_queue = Queue()
+
+    print("\nEmpty queue edge case:")
+    print(
+        "Result of dequeue() on an empty queue:",
+        empty_queue.dequeue(),
+    )
+    print(
+        "Result of front() on an empty queue:",
+        empty_queue.front(),
+    )
+
+    # Test a queue containing only one item.
+    single_item_queue = Queue()
+    single_item_queue.enqueue("Only queue item")
+
+    print("\nSingle-item queue test:")
+    print("Item removed:", single_item_queue.dequeue())
+    print(
+        "Is the queue empty after removal?",
+        single_item_queue.is_empty(),
+    )
+
+    # =====================================================
+    # REAL-WORLD EXAMPLE
+    # =====================================================
+
+    print("\n=== REAL-WORLD EXAMPLE ===")
+    print(
+        "A help desk can use FIFO for incoming tickets "
+        "and LIFO for recent actions."
+    )
 
 if __name__ == "__main__":
     main()

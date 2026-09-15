@@ -21,7 +21,8 @@ class Node:
         self.right = None
 
 
-class BST:
+class \
+        .BST:
     def __init__(self):
         # An empty BST starts without a root node.
         self.root = None

@@ -1,117 +1,256 @@
 """
 ===========================================================
-UNIT 7 DISCUSSION: SORTING ALGORITHMS (BUBBLE SORT VS MERGE SORT)
+UNIT 7 DISCUSSION: SORTING ALGORITHMS
+BUBBLE SORT VS. MERGE SORT
 ===========================================================
 
-STUDENT INSTRUCTIONS:
+This program demonstrates and compares two sorting algorithms:
 
-This project explores two fundamental sorting algorithms:
-- Bubble Sort (iterative, comparison-based)
-- Merge Sort (recursive, divide-and-conquer)
+1. Bubble Sort
+2. Merge Sort
 
-Your goal is to demonstrate both your coding ability and your
-understanding of algorithm efficiency and behavior.
+Two different datasets are sorted using both algorithms.
+The program also tests several edge cases and explains the
+differences in efficiency between Bubble Sort and Merge Sort.
 """
 
 
 def bubble_sort(lst):
     """
-    TODO (Student):
-    Implement Bubble Sort.
+    Sort a list using the Bubble Sort algorithm.
 
-    Requirements:
-    - Create a copy of the original list.
-    - Compare adjacent elements.
-    - Swap elements when they are out of order.
-    - Continue until the list is sorted.
-    - Return the sorted list.
-    - Add meaningful comments.
-
+    A copy of the original list is created so that the
+    original data is not modified.
     """
-    pass
+
+    # Create a copy of the original list.
+    sorted_list = lst.copy()
+
+    # Repeat passes through the list.
+    for i in range(len(sorted_list) - 1):
+        swapped = False
+
+        # Compare each pair of adjacent elements.
+        # The largest remaining value moves toward the end
+        # of the list after each pass.
+        for j in range(len(sorted_list) - 1 - i):
+
+            # Swap the values if they are in the wrong order.
+            if sorted_list[j] > sorted_list[j + 1]:
+                sorted_list[j], sorted_list[j + 1] = (
+                    sorted_list[j + 1],
+                    sorted_list[j]
+                )
+
+                swapped = True
+
+        # If no swaps occurred during a complete pass,
+        # the list is already sorted and we can stop early.
+        if not swapped:
+            break
+
+    return sorted_list
 
 
 def merge_sort(lst):
     """
-    TODO (Student):
-    Implement Merge Sort.
+    Sort a list using the recursive Merge Sort algorithm.
 
-    Requirements:
-    - Use recursion.
-    - Divide the list into smaller halves.
-    - Sort each half recursively.
-    - Merge the sorted halves together.
-    - Return the sorted list.
-    - Add meaningful comments.
-
+    Merge Sort divides the list into smaller halves,
+    recursively sorts those halves, and then merges them
+    back together in sorted order.
     """
-    pass
+
+    # Base case:
+    # A list containing zero or one element is already sorted.
+    if len(lst) <= 1:
+        return lst.copy()
+
+    # Find the middle position of the list.
+    middle = len(lst) // 2
+
+    # Divide the list into two halves.
+    left_half = lst[:middle]
+    right_half = lst[middle:]
+
+    # Recursively sort both halves.
+    sorted_left = merge_sort(left_half)
+    sorted_right = merge_sort(right_half)
+
+    # Merge the sorted halves together.
+    return merge(sorted_left, sorted_right)
 
 
 def merge(left, right):
     """
-    TODO (Student):
-    Implement the merge step used by Merge Sort.
-
-    Requirements:
-    - Compare values from the left and right lists.
-    - Build a new sorted result list.
-    - Append any remaining values.
-    - Return the merged sorted list.
-    - Add meaningful comments.
+    Merge two already-sorted lists into one sorted list.
     """
-    pass
+
+    result = []
+
+    # Keep track of the current position in each list.
+    left_index = 0
+    right_index = 0
+
+    # Compare values from both lists until one list is exhausted.
+    while left_index < len(left) and right_index < len(right):
+
+        if left[left_index] <= right[right_index]:
+            result.append(left[left_index])
+            left_index += 1
+
+        else:
+            result.append(right[right_index])
+            right_index += 1
+
+    # Add any remaining values from the left list.
+    result.extend(left[left_index:])
+
+    # Add any remaining values from the right list.
+    result.extend(right[right_index:])
+
+    return result
 
 
 def main():
     print("=== UNIT 7: SORTING ALGORITHMS ===")
 
-    # ===============================
-    # TODO (Student): DATASET #1
-    # ===============================
-    #
-    # Requirements:
-    # 1. Create an unsorted list containing at least 7 values.
-    # 2. Display the original list.
-    # 3. Sort the list using Bubble Sort.
-    # 4. Sort the same list using Merge Sort.
-    # 5. Clearly label and display all results.
+    # =====================================================
+    # DATASET #1
+    # =====================================================
+
+    # Dataset #1 contains at least seven unsorted values.
+    dataset1 = [42, 15, 8, 23, 4, 16, 31, 9]
 
     print("\n=== DATASET #1 ===")
-    print("TODO: Create an unsorted dataset and test both sorting algorithms.")
+    print("Original List:", dataset1)
 
-    # ===============================
-    # TODO (Student): DATASET #2
-    # ===============================
-    #
-    # Requirements:
-    # 1. Create a second dataset.
-    # 2. Use different values than Dataset #1.
-    # 3. Sort using both algorithms.
-    # 4. Compare the results.
+    # Sort the same dataset using both algorithms.
+    bubble_result1 = bubble_sort(dataset1)
+    merge_result1 = merge_sort(dataset1)
+
+    print("Bubble Sort:", bubble_result1)
+    print("Merge Sort: ", merge_result1)
+
+    # Verify that both algorithms produced the same result.
+    if bubble_result1 == merge_result1:
+        print("Comparison: Both algorithms produced the same sorted list.")
+    else:
+        print("Comparison: The algorithms produced different results.")
+
+    # =====================================================
+    # DATASET #2
+    # =====================================================
+
+    # Dataset #2 uses different values from Dataset #1.
+    dataset2 = [73, 12, 95, 28, 54, 6, 41, 67, 19]
 
     print("\n=== DATASET #2 ===")
-    print("TODO: Create a second dataset and compare sorting results.")
+    print("Original List:", dataset2)
 
-    # ===============================
-    # TODO (Student): EDGE CASES
-    # ===============================
-    #
-    # Demonstrate at least two edge cases.
-    #
-    # Example ideas:
-    # - Empty list
-    # - Already sorted list
-    # - Reverse-sorted list
-    # - List with duplicate values
-    # - Single-element list
-    #
-    # Explain what happens in each case.
+    # Sort Dataset #2 using both algorithms.
+    bubble_result2 = bubble_sort(dataset2)
+    merge_result2 = merge_sort(dataset2)
+
+    print("Bubble Sort:", bubble_result2)
+    print("Merge Sort: ", merge_result2)
+
+    # Compare the sorting results.
+    if bubble_result2 == merge_result2:
+        print("Comparison: Both algorithms produced the same sorted list.")
+    else:
+        print("Comparison: The algorithms produced different results.")
+
+    # =====================================================
+    # EDGE CASE TESTS
+    # =====================================================
 
     print("\n=== EDGE CASE TESTS ===")
-    print("TODO: Demonstrate and explain edge cases.")
 
+    # -----------------------------------------------------
+    # Edge Case #1: Empty List
+    # -----------------------------------------------------
 
+    empty_list = []
+
+    print("\nEdge Case #1: Empty List")
+    print("Original List:", empty_list)
+    print("Bubble Sort:", bubble_sort(empty_list))
+    print("Merge Sort: ", merge_sort(empty_list))
+
+    print(
+        "Explanation: An empty list contains no values to compare, "
+        "so it is already considered sorted."
+    )
+
+    # -----------------------------------------------------
+    # Edge Case #2: Already Sorted List
+    # -----------------------------------------------------
+
+    already_sorted = [1, 2, 3, 4, 5, 6, 7]
+
+    print("\nEdge Case #2: Already Sorted List")
+    print("Original List:", already_sorted)
+    print("Bubble Sort:", bubble_sort(already_sorted))
+    print("Merge Sort: ", merge_sort(already_sorted))
+
+    print(
+        "Explanation: Both algorithms return the same ordered list. "
+        "The optimized Bubble Sort detects that no swaps are required "
+        "and stops early."
+    )
+
+    # -----------------------------------------------------
+    # Edge Case #3: Duplicate Values
+    # -----------------------------------------------------
+
+    duplicate_values = [5, 2, 8, 2, 5, 1, 8]
+
+    print("\nEdge Case #3: Duplicate Values")
+    print("Original List:", duplicate_values)
+    print("Bubble Sort:", bubble_sort(duplicate_values))
+    print("Merge Sort: ", merge_sort(duplicate_values))
+
+    print(
+        "Explanation: Both algorithms correctly sort the list while "
+        "keeping all duplicate values."
+    )
+
+    # =====================================================
+    # ALGORITHM COMPARISON
+    # =====================================================
+
+    print("\n=== ALGORITHM COMPARISON ===")
+
+    print(
+        "Bubble Sort repeatedly compares adjacent elements and swaps "
+        "them when they are out of order."
+    )
+
+    print(
+        "Bubble Sort has an average and worst-case time complexity "
+        "of O(n^2). With the early-stop optimization used in this "
+        "program, its best-case time complexity is O(n) when the "
+        "list is already sorted."
+    )
+
+    print(
+        "Merge Sort uses a divide-and-conquer strategy. It repeatedly "
+        "divides the list into smaller halves, sorts those halves "
+        "recursively, and merges them back together."
+    )
+
+    print(
+        "Merge Sort has a time complexity of O(n log n), making it "
+        "generally more efficient than Bubble Sort as the size of "
+        "the dataset increases."
+    )
+
+    print(
+        "However, Merge Sort requires additional memory to create "
+        "and merge smaller lists, while Bubble Sort is conceptually "
+        "simpler."
+    )
 
 
 if __name__ == "__main__":
